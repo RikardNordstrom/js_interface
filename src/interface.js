@@ -1,10 +1,20 @@
+
+
 export default class Interface {
 
-    constructor(methods = {}){
-
-
+    constructor(name, methods = {}, extnds = []){
+        this.name = name;
         this.methods = methods;
 
+        for (var i = 0; i < extnds.length; i++) {
+            this.methods = Object.assign(this.methods, extnds[i].methods);
+        }
+
+        if(window.__interfaceStore[this.name]){
+            throw new Error('Interface already exists');
+        }
+
+        window.__interfaceStore[this.name] = this;
     }
 
     methodExistCheck(contextMethods){
@@ -48,6 +58,22 @@ export default class Interface {
         if (this.methods[method].return && contextReturnData.constructor !== this.methods[method].return) {
                 throw new TypeError('return should be of type [' + this.methods[method].return.name + '], got [' +
                             contextReturnData.constructor.name + ']');
+        }
+    }
+
+
+    type(obj){
+
+        let exists = false;
+
+        for (var i = 0; i < obj.__interfaces.length; i++) {
+            if(obj.__interfaces[i].name === this.name){
+                exists = true;
+            }
+        }
+
+        if(!exists){
+            throw new TypeError('[' + obj.constructor.name + '] do not implement [' + this.name + ']');
         }
     }
 

@@ -18,7 +18,7 @@ Function.prototype.implements = function(...ifaces) {
         iface.methodExistCheck(this.prototype);
         iface.methodNParamCheck(this.prototype);
         for (let method in iface.methods) {
-            
+
             let contextMethod = this.prototype[method];
 
             //rewrite context function to make runtime type check
@@ -35,6 +35,10 @@ Function.prototype.implements = function(...ifaces) {
 
                 return contextReturn;
             };
+
         }
     }
+    this.prototype.__interfaces = ifaces;
 }
+
+window.__interfaceStore = {};

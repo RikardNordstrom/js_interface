@@ -15,7 +15,7 @@ describe('implements',() => {
 
         expect.assertions(1);
 
-        const IObject = new Interface();
+        const IObject = new Interface('IObject');
 
 
         class MockClass {
@@ -25,6 +25,7 @@ describe('implements',() => {
         }
 
         expect( () => { new MockClass(); } ).not.toThrow(TypeError);
+
 
     });
 
@@ -50,7 +51,7 @@ describe('implements',() => {
 
         expect.assertions(1);
 
-        const IObject = new Interface({
+        const IObject = new Interface('IObject',{
             do      : {},
             doMore  : {},
         });
@@ -72,7 +73,7 @@ describe('implements',() => {
 
         expect.assertions(1);
 
-        const IObject = new Interface({
+        const IObject = new Interface('IObject',{
             do      : {},
             doMore  : {},
         });
@@ -95,7 +96,7 @@ describe('implements',() => {
 
         expect.assertions(1);
 
-        const IObject = new Interface({
+        const IObject = new Interface('IObject',{
             do      : { a:String, b:String},
             doMore  : { a:String },
         });
@@ -118,7 +119,7 @@ describe('implements',() => {
 
         expect.assertions(1);
 
-        const IObject = new Interface({
+        const IObject = new Interface('IObject',{
             do      : { a:String, b:String},
             doMore  : { a:String },
         });
@@ -140,7 +141,7 @@ describe('implements',() => {
 
         expect.assertions(4);
 
-        const IObject = new Interface({
+        const IObject = new Interface('IObject',{
             do      : { a:String, b:Number},
             doMore  : { a:Object },
         });
@@ -165,7 +166,7 @@ describe('implements',() => {
 
         expect.assertions(2);
 
-        const IObject = new Interface({
+        const IObject = new Interface('IObject',{
             do      : { a:String, b:Number, return:Number},
             doMore  : { a:Object, return:Object },
         });
@@ -191,12 +192,16 @@ describe('implements',() => {
 
         expect.assertions(2);
 
-        const IObject = new Interface({
+
+
+
+        const IObject = new Interface('IObject', {
             do      : { a:String, b:Number, return:Number},
             doMore  : { a:Object, return:Object },
         });
 
         class MockClass{
+
             constructor(){
                 MockClass.implements(IObject);
             }
@@ -211,6 +216,13 @@ describe('implements',() => {
         expect( () => { mockObj.doMore({ a : 1});   } ).not.toThrow(Error);
     });
 
+
+    beforeEach(() => {
+        window.__interfaceStore = {};
+    });
+
 });
+
+
 
 //mer edge testing, egna typer, egna typer + object. hantera void
